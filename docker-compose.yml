@@ -1,0 +1,33 @@
+# Jellymeme runs beside Jellyfin, not inside it.
+#
+# Note there is no mount of your media library: Jellymeme reads both
+# subtitles and video through Jellyfin's HTTP API, so the only persistent
+# state it owns is its own database, cached model weights and finished renders.
+
+services:
+  jellymeme:
+    build: .
+    # image: ghcr.io/you/jellymeme:latest
+    container_name: jellymeme
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    volumes:
+      - jellymeme-data:/data
+    environment:
+      # Optional: pre-seed the connection instead of entering it in Settings.
+      # JELLYFIN_URL: http://jellyfin:8096
+      # JELLYFIN_API_KEY: ${JELLYFIN_API_KEY}
+
+      # Any font family fontconfig can resolve inside the container.
+      JELLYMEME_CAPTION_FONT: DejaVu Sans
+
+    # Uncomment if Jellyfin runs in a compose network of its own.
+    # networks:
+    #   - jellyfin
+
+volumes:
+  jellymeme-data:
+# networks:
+#   jellyfin:
+#     external: true
