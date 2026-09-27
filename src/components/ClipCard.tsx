@@ -151,8 +151,8 @@ const PLAYHEAD_STEP_MS = 80
 const CAPTION_MODES = [
   { value: 'inherit', label: 'Follow the cut' },
   { value: 'none', label: 'No caption' },
-  { value: 'subtitle', label: 'Real subtitles' },
-  { value: 'custom', label: 'My own words' },
+  { value: 'subtitle', label: 'Subtitles' },
+  { value: 'custom', label: 'Custom' },
 ] as const satisfies { value: ClipCaptionMode; label: string }[]
 
 interface ClipCardProps {
@@ -508,7 +508,7 @@ export function ClipCard({
             onChange={(e) =>
               onChange({ ...clip, caption: { ...clip.caption, text: e.target.value } })
             }
-            placeholder="Type the caption to burn onto this clip"
+            placeholder="Caption text"
             className="w-full rounded-lg border border-line bg-surface px-3 py-1.5 text-sm placeholder:text-faint focus:border-accent focus:outline-none"
           />
         )}
@@ -522,7 +522,7 @@ export function ClipCard({
           <CaptionLookControls
             look={clip.caption.look}
             inherited={cutCaption.look ?? DEFAULT_LOOK}
-            inheritLabel="Size and place like the rest of the cut"
+            inheritLabel="Match the cut"
             onChange={(look) => onChange({ ...clip, caption: { ...clip.caption, look } })}
           />
         )}

@@ -128,7 +128,7 @@ export function SceneSearch({ titleId, disabled }: { titleId?: string; disabled:
           {(
             [
               ['title', 'In this show'],
-              ['everything', 'Everything indexed'],
+              ['everything', 'All shows'],
             ] as const
           ).map(([value, label]) => (
             <button
@@ -165,8 +165,8 @@ export function SceneSearch({ titleId, disabled }: { titleId?: string; disabled:
       {matches?.length === 0 && (
         <p className="py-6 text-center text-sm text-faint">
           {searchingEverything
-            ? 'Nothing in any indexed show matched that. Try what someone says, or what happens.'
-            : 'Nothing in this show matched that. Try searching everything indexed, or describe what someone says.'}
+            ? 'No match. Try what someone says, or what happens.'
+            : 'No match in this show. Try All shows.'}
         </p>
       )}
 
@@ -189,7 +189,7 @@ export function SceneSearch({ titleId, disabled }: { titleId?: string; disabled:
                     disabled={otherShow || creating !== null}
                     title={
                       otherShow
-                        ? `A cut holds one show, and this one is from ${match.titleName}`
+                        ? `From ${match.titleName}. A cut holds one show.`
                         : undefined
                     }
                     aria-label={`Add ${episodeLabel(match.season, match.episode, match.videoName)} at ${formatTime(match.startMs)} to the cut`}
@@ -218,14 +218,14 @@ export function SceneSearch({ titleId, disabled }: { titleId?: string; disabled:
                         onClick={() => makeCut([index], index)}
                         disabled={creating !== null}
                       >
-                        {creating === index ? 'Opening…' : 'This is the one'}
+                        {creating === index ? 'Opening…' : 'Use this'}
                       </Button>
                       <Button
                         size="sm"
                         variant="ghost"
                         onClick={() => setPreviewing(previewing === index ? null : index)}
                       >
-                        {previewing === index ? 'Hide' : 'Watch it first'}
+                        {previewing === index ? 'Hide' : 'Preview'}
                       </Button>
                     </div>
 
@@ -265,7 +265,7 @@ export function SceneSearch({ titleId, disabled }: { titleId?: string; disabled:
             onClick={() => makeCut([...picked].sort((a, b) => a - b), 'cut')}
             disabled={creating !== null}
           >
-            {creating === 'cut' ? 'Building…' : 'Cut these together'}
+            {creating === 'cut' ? 'Building…' : 'Make cut'}
           </Button>
         </div>
       )}

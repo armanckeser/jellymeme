@@ -60,10 +60,7 @@ export default function SettingsPage() {
     <div className="max-w-xl space-y-6">
       <div>
         <h1 className="text-xl font-semibold">Jellyfin connection</h1>
-        <p className="mt-1 text-sm text-muted">
-          Jellymeme reads your library through the Jellyfin API. It never needs access to your
-          media files on disk.
-        </p>
+        <p className="mt-1 text-sm text-muted">API access only. No media files needed.</p>
       </div>
 
       {connection.connected && (
@@ -86,13 +83,13 @@ export default function SettingsPage() {
 
           <Field
             label="API key"
-            hint="Create one in Jellyfin under Dashboard → Advanced → API Keys. It is stored locally and never sent to the browser."
+            hint="Jellyfin → Dashboard → API Keys. Kept on the server."
           >
             <Input
               type="password"
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
-              placeholder={connection.connected ? 'Enter a new key to replace the saved one' : ''}
+              placeholder={connection.connected ? 'Saved. Paste a new key to replace it' : ''}
               autoComplete="off"
               spellCheck={false}
             />

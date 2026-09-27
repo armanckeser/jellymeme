@@ -14,13 +14,9 @@ export default async function HomePage() {
     return (
       <div className="mx-auto max-w-lg space-y-5 py-12 text-center">
         <h1 className="text-2xl font-semibold">Find any scene by describing it</h1>
-        <p className="text-sm text-muted">
-          Jellymeme reads the subtitles in your Jellyfin library, so you can ask for the moment you
-          half-remember and get the clip. It talks to Jellyfin over its API and never needs access to
-          your files.
-        </p>
+        <p className="text-sm text-muted">Search your Jellyfin library by what happens. Get the clip.</p>
         <Link href="/settings" className="inline-block">
-          <Button variant="primary">Connect your Jellyfin server</Button>
+          <Button variant="primary">Connect Jellyfin</Button>
         </Link>
       </div>
     )

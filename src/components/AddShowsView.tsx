@@ -23,7 +23,7 @@ const FILTERS: { value: Filter; label: string }[] = [
   { value: 'all', label: 'Everything' },
   { value: 'series', label: 'Shows' },
   { value: 'movies', label: 'Films' },
-  { value: 'new', label: 'Not added yet' },
+  { value: 'new', label: 'Not added' },
 ]
 
 /** What a title is currently doing, which decides how its card behaves. */
@@ -136,10 +136,7 @@ export function AddShowsView({
     <div className="space-y-5">
       <div>
         <h1 className="text-xl font-semibold">Add shows and films</h1>
-        <p className="mt-1 text-sm text-muted">
-          Pick anything you might want a clip from. Jellymeme reads its subtitles once, and
-          after that you can find a moment by describing it.
-        </p>
+        <p className="mt-1 text-sm text-muted">Pick what you want clips from.</p>
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
@@ -207,7 +204,7 @@ export function AddShowsView({
 
         {visible.length === 0 ? (
           <EmptyState title="Nothing here matches that">
-            Try a shorter filter, or switch to Everything.
+            Try a shorter name.
           </EmptyState>
         ) : (
           <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6">
@@ -233,16 +230,13 @@ export function AddShowsView({
           <div className="mx-auto flex max-w-5xl flex-wrap items-center gap-3 px-5 py-3">
             <p className="text-sm">
               <span className="font-semibold">{selected.size}</span> selected
-              <span className="ml-2 text-xs text-faint">
-                indexed one at a time in the background
-              </span>
             </p>
             <div className="ml-auto flex items-center gap-2">
               <Button size="sm" variant="ghost" onClick={() => setSelected(new Set())}>
                 Clear
               </Button>
               <Button size="sm" variant="primary" onClick={indexSelected} disabled={submitting}>
-                {submitting ? 'Queueing…' : `Read subtitles for ${selected.size}`}
+                {submitting ? 'Adding…' : `Add ${selected.size}`}
               </Button>
             </div>
           </div>

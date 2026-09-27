@@ -24,7 +24,7 @@ import {
  */
 
 const PLACEMENTS: { value: CaptionPlacement; label: string }[] = [
-  { value: 'auto', label: 'Where it usually goes' },
+  { value: 'auto', label: 'Auto' },
   { value: 'top', label: 'Top' },
   { value: 'bottom', label: 'Bottom' },
 ]
@@ -151,8 +151,7 @@ export function SubtitleLineEditor({
   if (cues.length === 0) {
     return (
       <p className="text-xs text-faint">
-        No dialogue inside this clip, so the real subtitles will not show anything. Extend it, or
-        use your own words.
+        No dialogue in this clip. Extend it or write a custom caption.
       </p>
     )
   }
@@ -163,7 +162,7 @@ export function SubtitleLineEditor({
     <div className="space-y-2">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <p className="text-xs text-faint">
-          What this clip says — edit any line, or empty one to drop it
+          Edit a line, or clear it to drop it
         </p>
         {changed > 0 && (
           <button

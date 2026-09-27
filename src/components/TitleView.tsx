@@ -168,19 +168,12 @@ export function TitleView({
       {error && <Banner>{error}</Banner>}
 
       {nothingIndexed && !indexing ? (
-        <Banner>
-          None of this title’s videos had subtitles Jellymeme can read, so there is no dialogue to
-          search. Subtitles have to be text — image-based tracks would need to be transcribed first.
-          If they have been added since, check again.
-        </Banner>
+        <Banner>No text subtitles found, so there is nothing to search. Image-based subtitles can’t be read.</Banner>
       ) : (
         <section className="space-y-4">
-          <div>
-            <h2 className="text-sm font-semibold">Describe the moment you want</h2>
-            <p className="mt-0.5 text-sm text-muted">
-              Roughly is fine. Jellymeme matches meaning, not wording, so “when he refuses to sign
-              and walks out” finds the scene even if nobody says those words.
-            </p>
+          <div className="flex flex-wrap items-baseline gap-x-2">
+            <h2 className="text-sm font-semibold">Find a scene</h2>
+            <p className="text-xs text-faint">matches meaning, not exact words</p>
           </div>
 
           <SceneSearch titleId={titleId} disabled={nothingIndexed} />
@@ -191,7 +184,7 @@ export function TitleView({
               className="flex items-center gap-1.5 text-sm text-muted hover:text-ink"
             >
               <Icon.Chevron open={showPaste} />
-              Got a whole list? Paste it and get one clip per line
+              Paste a list, one clip per line
             </button>
 
             {showPaste && (
@@ -207,7 +200,7 @@ export function TitleView({
                 {descriptions.length > 0 && (
                   <div className="space-y-1.5">
                     <p className="text-xs text-faint">
-                      Untick anything that is a comment rather than a scene.
+                      Untick lines that aren’t scenes
                     </p>
                     <Card className="max-h-72 divide-y divide-line overflow-y-auto">
                       {descriptions.map((description) => {
@@ -260,7 +253,7 @@ export function TitleView({
                   <p className="text-xs text-faint">
                     {descriptions.length === 0
                       ? 'Nothing detected yet'
-                      : `${selected.length} of ${descriptions.length} will become clips`}
+                      : `${selected.length} of ${descriptions.length} selected`}
                   </p>
                   <Button
                     variant="primary"
@@ -297,6 +290,7 @@ export function TitleView({
                   size="sm"
                   variant="danger"
                   onClick={async () => {
+                    if (!window.confirm(`Delete “${m.name}”?`)) return
                     await del(`/api/montage/${m.id}`)
                     await reload()
                   }}
@@ -315,10 +309,10 @@ export function TitleView({
           className="flex items-center gap-1.5 text-sm font-semibold text-muted hover:text-ink"
         >
           <Icon.Chevron open={showEpisodes} />
-          Which episodes are searchable
+          Episodes
           {missing.length > 0 && (
             <span className="text-xs font-normal text-danger">
-              {missing.length} could not be read
+              {missing.length} unreadable
             </span>
           )}
         </button>

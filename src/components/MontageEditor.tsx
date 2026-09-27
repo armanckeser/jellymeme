@@ -40,11 +40,11 @@ import type { RenderRecord } from '@/lib/render/render'
  * Discord" is what someone choosing between them needs.
  */
 const FORMATS: { value: OutputFormat; label: string; hint: string }[] = [
-  { value: 'mp4', label: 'Video', hint: 'MP4 with sound. Plays anywhere, including phones.' },
-  { value: 'gif', label: 'GIF', hint: 'Silent and loops forever. Works where video is not allowed.' },
-  { value: 'webm', label: 'WebM', hint: 'Smallest file at the same quality. Browsers and Discord.' },
-  { value: 'png', label: 'Still', hint: 'One frame, lossless. Best for captions and sharp edges.' },
-  { value: 'jpg', label: 'Photo', hint: 'One frame, smaller file, slightly softer.' },
+  { value: 'mp4', label: 'Video', hint: 'MP4 with sound. Plays anywhere.' },
+  { value: 'gif', label: 'GIF', hint: 'Silent, loops. For places that block video.' },
+  { value: 'webm', label: 'WebM', hint: 'Smallest file. Browsers and Discord.' },
+  { value: 'png', label: 'Still', hint: 'One lossless frame.' },
+  { value: 'jpg', label: 'Photo', hint: 'One frame, smaller file.' },
 ]
 
 /**
@@ -446,8 +446,8 @@ const Hairline = () => (
 
 const CUT_CAPTION_MODES: { value: CaptionMode; label: string }[] = [
   { value: 'none', label: 'No caption' },
-  { value: 'subtitle', label: 'Real subtitles' },
-  { value: 'custom', label: 'The same words on all of them' },
+  { value: 'subtitle', label: 'Subtitles' },
+  { value: 'custom', label: 'Custom' },
 ]
 
 /**
@@ -509,7 +509,7 @@ function CutCaption({
         <input
           value={caption.text}
           onChange={(e) => onChange({ ...caption, text: e.target.value })}
-          placeholder="Words to burn onto every clip that follows the cut"
+          placeholder="Caption for every clip"
           className="w-full rounded-lg border border-line bg-surface px-3 py-1.5 text-sm placeholder:text-faint focus:border-accent focus:outline-none"
         />
       )}

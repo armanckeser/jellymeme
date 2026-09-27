@@ -52,12 +52,9 @@ export function LibraryView({
     return (
       <div className="mx-auto max-w-lg space-y-5 py-12 text-center">
         <h1 className="text-2xl font-semibold">Find any scene by describing it</h1>
-        <p className="text-sm text-muted">
-          Point Jellymeme at a few shows and it reads their subtitles. After that you can ask for
-          “the one where he declares bankruptcy” and get the clip, trimmed and captioned.
-        </p>
+        <p className="text-sm text-muted">Add a few shows to start searching them.</p>
         <Link href="/add" className="inline-block">
-          <Button variant="primary">Choose shows to add</Button>
+          <Button variant="primary">Add shows</Button>
         </Link>
       </div>
     )
@@ -69,7 +66,7 @@ export function LibraryView({
         <div>
           <h1 className="text-xl font-semibold">What do you want a clip from?</h1>
           <p className="mt-1 text-sm text-muted">
-            {titles.length} {titles.length === 1 ? 'title' : 'titles'} searchable by description.
+            {titles.length} {titles.length === 1 ? 'title' : 'titles'}
           </p>
         </div>
         <Link href="/add">
@@ -95,10 +92,7 @@ export function LibraryView({
       */}
       {searchable > 1 && (
         <section className="space-y-2 border-t border-line pt-6">
-          <h2 className="text-sm font-semibold">Know the line but not the show?</h2>
-          <p className="text-sm text-muted">
-            Describe it and Jellymeme looks through all {searchable} of them at once.
-          </p>
+          <h2 className="text-sm font-semibold">Search all {searchable} shows</h2>
           <SceneSearch disabled={false} />
         </section>
       )}
