@@ -31,6 +31,8 @@ burn in captions, export.
 
 It talks to Jellyfin over its HTTP API and **never needs access to your media files**.
 
+If Jellymeme is useful to you, starring the repo helps other people find it, and [armanckeser.com/subscribe](https://armanckeser.com/subscribe) has ways to hear about new releases.
+
 ---
 
 ## How it works
