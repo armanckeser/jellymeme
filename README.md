@@ -170,9 +170,19 @@ docker compose -f oci://ghcr.io/armanckeser/jellymeme-stack:latest up -d
 ```
 
 Then open `http://<server>:8080` and connect Jellyfin in Settings. It needs no volume mounts for your
-media, only a volume for its own database and renders. Jellymeme is also in the app stores of Cosmos,
-Umbrel, CasaOS, Runtipi, Unraid and Portainer through
-[selfhost-apps](https://github.com/armanckeser/selfhost-apps).
+media, only a volume for its own database and renders.
+
+**From your server's app store:** add the catalog once, then install Jellymeme like any other app.
+
+| Server | Where | Paste |
+| --- | --- | --- |
+| Cosmos | Market → Sources → Add Source | `https://armanckeser.github.io/selfhost-apps/servapps.json` |
+| Umbrel | App Store → ⋯ → Community App Stores | `https://github.com/armanckeser/selfhost-apps` |
+| CasaOS / ZimaOS | App Store → Add Source | `https://github.com/armanckeser/selfhost-apps/archive/refs/heads/casaos.zip` |
+| Runtipi | Settings → App Stores → Add App Store | `https://github.com/armanckeser/selfhost-apps` |
+| Portainer | Settings → App Templates → URL | `https://armanckeser.github.io/selfhost-apps/portainer/templates.json` |
+
+Unraid's Community Apps doesn't list it yet; [selfhost-apps](https://github.com/armanckeser/selfhost-apps#add-the-catalog-to-your-server) has the template to add by hand.
 
 Set `AUTH_PASSWORD` to ask for a password before anything else, if anyone else on your network can reach
 the server. `docker compose up -d` from a checkout builds the image from source instead.
