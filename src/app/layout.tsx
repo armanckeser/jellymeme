@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { authPassword } from '@/lib/auth/session'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -40,6 +41,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               >
                 Settings
               </Link>
+              {authPassword() ? (
+                <form method="post" action="/api/auth/logout">
+                  <button
+                    type="submit"
+                    className="rounded-lg px-2.5 py-1.5 text-muted transition-colors hover:bg-raised hover:text-ink"
+                  >
+                    Sign out
+                  </button>
+                </form>
+              ) : null}
             </nav>
           </div>
         </header>

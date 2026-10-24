@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+
+  # The image the release publishes, started the way the store packages start it.
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - run: docker build -t ghcr.io/armanckeser/jellymeme:latest .
+      - run: AUTH_PASSWORD=ci-password docker compose -f docker-compose.selfhost.yml up -d --wait
+      - name: Health is open, everything else asks for the password
+        run: |
+          curl -fsS http://localhost:8080/api/health
+          test "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:8080/api/connection)" = 401
+          curl -s -c jar -o /dev/null -d 'password=ci-password' http://localhost:8080/api/auth/login
+          curl -fsS -b jar http://localhost:8080/api/connection
+      - run: docker compose -f docker-compose.selfhost.yml logs app
+        if: failure()
+      - run: docker compose -f docker-compose.selfhost.yml down -v
+        if: always()

@@ -159,15 +159,23 @@ All optional.
 | `JELLYMEME_MODEL_CACHE` | `$JELLYMEME_DATA/models` | Embedding model weights (~90 MB, downloaded once) |
 | `JELLYMEME_CAPTION_FONT` | `DejaVu Sans` | Font family for burned captions |
 | `JELLYFIN_URL` / `JELLYFIN_API_KEY` | — | Pre-seed the connection instead of using the UI |
+| `AUTH_PASSWORD` | — | Ask for this password before any page or API call |
 
 ## Docker
 
+One command, no clone (Compose 2.34+), amd64 or arm64:
+
 ```bash
-docker compose up -d
+docker compose -f oci://ghcr.io/armanckeser/jellymeme-stack:latest up -d
 ```
 
-`docker-compose.yml` runs Jellymeme alongside an existing Jellyfin. It needs no volume mounts for
-your media — only a volume for its own database and renders.
+Then open `http://<server>:8080` and connect Jellyfin in Settings. It needs no volume mounts for your
+media, only a volume for its own database and renders. Jellymeme is also in the app stores of Cosmos,
+Umbrel, CasaOS, Runtipi, Unraid and Portainer through
+[selfhost-apps](https://github.com/armanckeser/selfhost-apps).
+
+Set `AUTH_PASSWORD` to ask for a password before anything else, if anyone else on your network can reach
+the server. `docker compose up -d` from a checkout builds the image from source instead.
 
 ## Performance
 

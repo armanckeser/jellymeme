@@ -1,0 +1,35 @@
+# Store listing for Jellymeme. armanckeser/selfhost-apps reads this file from the latest release and
+# generates every store package from it (Cosmos, Umbrel, CasaOS/ZimaOS, Runtipi, Unraid, Portainer).
+# Paths are relative to the repo root.
+
+id: jellymeme
+name: Jellymeme
+auth: builtin
+tagline: Describe a scene from your Jellyfin library and get it as a captioned GIF or clip.
+description: |
+  Describe a moment the way you'd tell a friend, "when he admits the robot hand freaks him out", and Jellymeme finds it in your Jellyfin library. Trim it to the line you want, burn in the subtitles or your own caption, and export a GIF, a clip or a still.
+
+  Paste a list of scenes, such as the replies to a "best scenes in this show" thread, and every line becomes a clip in one montage.
+
+  Jellymeme reads subtitles and video through Jellyfin's HTTP API, so it needs no access to your media files. Connect your Jellyfin server and an API key in Settings after installing. Indexing and rendering use the CPU; a Raspberry Pi works but is slow.
+category: media
+developer: Armanc Keser
+website: https://github.com/armanckeser/jellymeme
+repo: https://github.com/armanckeser/jellymeme
+support: https://github.com/armanckeser/jellymeme/issues
+license: MIT
+icon: selfhost/icon.png
+screenshots:
+  - img/cover.png
+image: ghcr.io/armanckeser/jellymeme
+compose: docker-compose.selfhost.yml
+# Already one container; there is no all-in-one image.
+aio: false
+host_port: 3000
+services:
+  app:
+    image: ghcr.io/armanckeser/jellymeme:${version}
+    port: 8080
+    volumes:
+      data: /data
+env: []

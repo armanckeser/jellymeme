@@ -34,7 +34,9 @@ FROM deps AS build
 WORKDIR /app
 COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
-RUN npm run build
+# Drop the dev tooling (TypeScript, ESLint, Vitest...) once the build no longer needs it. prune only
+# removes packages, so the better-sqlite3 addon rebuilt above stays.
+RUN npm run build && npm prune --omit=dev
 
 # ---- runtime ---------------------------------------------------------------
 FROM node:22-bookworm-slim AS runtime
@@ -61,26 +63,29 @@ ENV NODE_ENV=production \
     JELLYMEME_DATA=/data \
     JELLYMEME_RENDERS=/data/renders \
     JELLYMEME_FFMPEG=/usr/bin/ffmpeg \
-    PORT=3000
+    PORT=8080
 
-COPY --from=build /app/node_modules ./node_modules
-COPY --from=build /app/.next ./.next
-COPY --from=build /app/package.json ./package.json
-COPY --from=build /app/next.config.ts ./next.config.ts
-COPY --from=build /app/public ./public
+COPY --from=build --chown=node:node /app/node_modules ./node_modules
+COPY --from=build --chown=node:node /app/.next ./.next
+COPY --from=build --chown=node:node /app/package.json ./package.json
+COPY --from=build --chown=node:node /app/next.config.ts ./next.config.ts
+COPY --from=build --chown=node:node /app/public ./public
 # Read at runtime to create the database.
-COPY --from=build /app/src/lib/db/schema.sql ./src/lib/db/schema.sql
+COPY --from=build --chown=node:node /app/src/lib/db/schema.sql ./src/lib/db/schema.sql
 # Forked at runtime, so it is not part of the Next build graph and has to be
 # copied by hand. Without it, embedding fails in the image but not in dev.
-COPY --from=build /app/scripts/embed-worker.mjs ./scripts/embed-worker.mjs
+COPY --from=build --chown=node:node /app/scripts/embed-worker.mjs ./scripts/embed-worker.mjs
 
-RUN mkdir -p /data/renders && chown -R node:node /data /app
+# --chown on each COPY, not a chown -R afterwards: that would copy all of node_modules into a second layer.
+RUN mkdir -p /data/renders && chown -R node:node /data && chown node:node /app
 USER node
 
 VOLUME ["/data"]
-EXPOSE 3000
+EXPOSE 8080
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=20s \
-  CMD node -e "fetch('http://127.0.0.1:3000/api/connection').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+  CMD node -e "fetch('http://127.0.0.1:'+process.env.PORT+'/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 
 CMD ["npm", "run", "start"]
+
+LABEL org.opencontainers.image.title="Jellymeme"       org.opencontainers.image.licenses="MIT"

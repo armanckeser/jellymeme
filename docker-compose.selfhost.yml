@@ -1,0 +1,37 @@
+# Jellymeme for anyone self-hosting it. One command, no clone:
+#
+#   docker compose -f oci://ghcr.io/armanckeser/jellymeme-stack:latest up -d
+#
+# (Compose 2.34+; or download this file and run `docker compose -f docker-compose.selfhost.yml up -d`.)
+# Then open http://<host>:8080 and connect your Jellyfin server in Settings. Jellymeme reads subtitles and
+# video through Jellyfin's HTTP API, so it needs no access to your media files.
+#
+# The store packages (armanckeser/selfhost-apps) are generated from this shape, so keep it free of bind
+# mounts, env_file and build:.
+
+name: jellymeme
+
+services:
+  app:
+    image: ghcr.io/armanckeser/jellymeme:${TAG:-latest}
+    restart: unless-stopped
+    # Long syntax: Compose 5 `publish` rejects a short "${PORT}:8080" string.
+    ports:
+      - target: 8080
+        published: "${PORT:-8080}"
+    environment:
+      # Set a password unless only your own devices can reach this server.
+      AUTH_PASSWORD: ${AUTH_PASSWORD:-}
+      # Optional: connect to Jellyfin here instead of in Settings.
+      JELLYFIN_URL: ${JELLYFIN_URL:-}
+      JELLYFIN_API_KEY: ${JELLYFIN_API_KEY:-}
+      TZ: ${TZ:-UTC}
+    # Lets JELLYFIN_URL be http://host.docker.internal:8096 when Jellyfin runs on this host outside Docker.
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # The index, cached model weights and finished renders.
+    volumes:
+      - data:/data
+
+volumes:
+  data:
