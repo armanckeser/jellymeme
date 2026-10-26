@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="img/banner.png" alt="Jellymeme: describe any scene in your Jellyfin library and get the clip, captioned, as a GIF or video" width="100%" />
-</p>
-
 **Remember a scene but not where it is?** Describe it the way you'd tell a friend, "when he
 admits the robot hand freaks him out", and Jellymeme finds it in your Jellyfin library,
 trims it to the line you want, burns in the subtitles or your own caption, and hands you a
@@ -34,6 +30,9 @@ It talks to Jellyfin over its HTTP API and **never needs access to your media fi
 If Jellymeme is useful to you, starring the repo helps other people find it, and [armanckeser.com/subscribe](https://armanckeser.com/subscribe) has ways to hear about new releases.
 
 ---
+
+<details>
+<summary>How it works</summary>
 
 ## How it works
 
@@ -79,7 +78,7 @@ plugin sandbox that was never built for it.
 | Still frames and GIF palettes | ffmpeg | Not something a media server exposes |
 | Semantic search | Jellymeme | Jellyfin only does substring title search |
 
----
+</details>
 
 ## Requirements
 
@@ -115,6 +114,9 @@ Then:
    size and place the text, rewrite individual subtitle lines, mute clips.
 4. **Export** as MP4, GIF, WebM, or a single frame as PNG or JPG.
 
+<details>
+<summary>Trimming, captions and still images</summary>
+
 ### Trimming
 
 Each edge of a clip moves both ways. Positive extends the clip outward, negative pulls it inward —
@@ -148,6 +150,11 @@ an edit; the original line comes back if it does.
 Choose PNG or JPG and a frame picker appears. The frame is grabbed from the finished cut, so any
 burned caption is baked in exactly as it appears in the video.
 
+</details>
+
+<details>
+<summary>Configuration</summary>
+
 ## Configuration
 
 All optional.
@@ -160,6 +167,8 @@ All optional.
 | `JELLYMEME_CAPTION_FONT` | `DejaVu Sans` | Font family for burned captions |
 | `JELLYFIN_URL` / `JELLYFIN_API_KEY` | — | Pre-seed the connection instead of using the UI |
 | `AUTH_PASSWORD` | — | Ask for this password before any page or API call |
+
+</details>
 
 ## Docker
 
@@ -186,6 +195,9 @@ Unraid's Community Apps doesn't list it yet; [selfhost-apps](https://github.com/
 
 Set `AUTH_PASSWORD` to ask for a password before anything else, if anyone else on your network can reach
 the server. `docker compose up -d` from a checkout builds the image from source instead.
+
+<details>
+<summary>Performance, testing and known limitations</summary>
 
 ## Performance
 
@@ -220,6 +232,8 @@ Jellyfin itself runs for real. The mock's limits, and which assertions they weak
   `postcss`, `sharp`, `nanoid`) and transformers.js (`onnxruntime-node` → `adm-zip`). They cannot be
   resolved without forcing breaking upgrades, and `onnxruntime-node` is deliberately pinned below
   1.24 for a crash reason described in `docs/ARCHITECTURE.md`.
+
+</details>
 
 ## Legal
 
